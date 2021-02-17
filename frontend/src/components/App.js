@@ -7,8 +7,8 @@ import SignUp from "./SignUp";
 import Login from "./Login";
 import PrivateRoute from "./PrivateRoute";
 import ProfilePage from "./ProfilePage";
-import ForgotPassword from "./ForgotPassword";
 import UpdateProfile from "./UpdateProfile";
+import Register from "./Register";
 
 function App() {
   return (
@@ -27,9 +27,9 @@ function App() {
                 component={ProfilePage}
               />
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
+              <PrivateRoute path="/register" component={Register} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={SignUp} />
-              <Route path="/forgot-password" component={ForgotPassword} />
             </Switch>
           </AuthProvider>
         </Router>

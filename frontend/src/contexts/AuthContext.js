@@ -13,47 +13,38 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  //   async function signup(email, password, displayName, building, phone) {
-  //     try {
-  //       let emailURI = encodeURIComponent(email).trim();
-  //       displayName = encodeURIComponent(displayName);
-  //       building = encodeURIComponent(building);
-  //       phone = encodeURIComponent(phone);
-
-  //       return auth
-  //         .createUserWithEmailAndPassword(email, password)
-  //         .then(async (newUserCredential) => {
-  //           // Signed in
-  //           //   await newUserCredential.user.sendEmailVerification();
-  //           const response = await axios({
-  //             method: "get",
-  //             url: `${BACKEND_ADDRESS}/signup?email=${emailURI}&displayName=${displayName}&building=${building}&phone=${phone}`,
-  //           });
-  //         })
-  //         .catch((error) => {
-  //           throw error;
-  //         });
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   }
-
   async function login() {
     try {
       return auth
         .signInWithPopup(provider)
-        .then(async () => {
-          let email = currentUser.email;
+        .then(async (result) => {
+          let user = result.user;
+          let email = user.email;
           email = encodeURIComponent(email);
-          await axios({
+          let response = await axios({
             method: "get",
-            url: `${BACKEND_ADDRESS}/login?email=${email}`,
+            url: `${BACKEND_ADDRESS}/login/checkUser?email=${email}`,
           });
+          // if first time for user
+          if (response.data) {
+            return true;
+          }
         })
         .catch((error) => {
           throw error;
         });
       // return auth.signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function firstLogin(email, building, phone) {
+    try {
+      await axios({
+        method: "get",
+        url: `${BACKEND_ADDRESS}/login/signIn?email=${email}`,
+      });
     } catch (error) {
       throw error;
     }
@@ -76,18 +67,6 @@ export function AuthProvider({ children }) {
   function updateDisplayName(newDisplayName) {
     return auth.updateProfile({ displayName: newDisplayName });
   }
-  //   function resetPassword(email) {
-  //     return auth.sendPasswordResetEmail(email);
-  //   }
-
-  //   function updateEmail(email) {
-  //     return currentUser.updateEmail(email);
-  //   }
-
-  //   function updatePassword(password) {
-  //     return currentUser.updatePassword(password);
-  //   }
-  // ALSO CREATE FUNCTIONS THAT UPDATE THE OTHER FIELDS TOO BUT IN THE DATABASE
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -99,14 +78,11 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
-    // signup,
+    firstLogin,
     updateDisplayName,
     updateInfo,
     login,
     logout,
-    // resetPassword,
-    // updateEmail,
-    // updatePassword,
   };
   return (
     <AuthContext.Provider value={value}>

@@ -8,7 +8,6 @@ const mongoose = require("mongoose");
 let app = express();
 const PORT = 5555;
 
-//const home = require("./home/routes");
 const login = require("./signIn/routes");
 const postings = require("./postings/routes");
 const post = require("./post/routes");
@@ -20,8 +19,6 @@ const router = express.Router();
 app.use(bodyParser.json());
 app.use(cors());
 
-//app.get("/", home);
-// app.use("/signup", signup);
 app.use("/login", login);
 app.use("/postings", postings);
 app.use("/post", post);

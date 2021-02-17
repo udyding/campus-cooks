@@ -13,16 +13,13 @@ async function getUser(email) {
       method: "get",
       url: `${BACKEND_ADDRESS}/user/getUserInfo?email=${email}`,
     });
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error);
   }
 }
 
 export default function UpdateProfile() {
-  // const emailRef = useRef();
-  // const passwordRef = useRef();
-  // const passwordConfirmRef = useRef();
   const displayNameRef = useRef();
   const buildingRef = useRef();
   const phoneRef = useRef();
@@ -34,12 +31,16 @@ export default function UpdateProfile() {
   const [phone, setPhone] = useState();
 
   useEffect(() => {
-    let userInfo = getUser(currentUser.email);
-    setBuilding(userInfo.building);
-    if (userInfo.phone) {
-      setPhone(userInfo.phone);
-    }
-  });
+    const getUserInfo = async () => {
+      let userInfo = await getUser(currentUser.email);
+      setBuilding(userInfo.building);
+      if (userInfo.phone) {
+        setPhone(userInfo.phone);
+      }
+    };
+
+    getUserInfo();
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -62,25 +63,6 @@ export default function UpdateProfile() {
     } finally {
       setLoading(false);
     }
-
-    // if (emailRef.current.value !== currentUser.email) {
-    //   promises.push(updateEmail(emailRef.current.value));
-    // }
-    // if (passwordRef.current.value) {
-    //   promises.push(updatePassword(passwordRef.current.value));
-    // }
-
-    // Promise.all(promises)
-    //   .then(() => {
-    //     // once all changes are made, redirect to profile page, unless both pass and user are changed
-    //     history.push("/profile-page");
-    //   })
-    //   .catch(() => {
-    //     setError("Failed to update account");
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
   }
 
   return (
@@ -99,30 +81,34 @@ export default function UpdateProfile() {
                 defaultValue={currentUser.displayName}
               />
             </Form.Group>
-            <Form.Group id="building">
-              <Form.Label>Residence</Form.Label>
-              <Form.Control
-                as="select"
-                // defaultValue={currentUser.building} ADD THISSSSSSSS
-                type="building"
-                ref={buildingRef}
-                required
-                defaultValue={building}
-              >
-                {/* <option>Choose...</option> */}
-                <option>Village 1</option>
-                <option>Ron Eydt Village (REV)</option>
-                <option>Claudette Millar Hall (CMH)</option>
-                <option>Mackenzie King Village</option>
-                <option>UW Place</option>
-                <option>Columbia Lake Village</option>
-                <option>Minota Hagey</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group id="phone">
-              <Form.Label>Phone #</Form.Label>
-              <Form.Control type="text" ref={phoneRef} defaultValue={phone} />
-            </Form.Group>
+            {building && (
+              <Form.Group id="building">
+                <Form.Label>Residence</Form.Label>
+                <Form.Control
+                  as="select"
+                  // defaultValue={currentUser.building} ADD THISSSSSSSS
+                  type="building"
+                  ref={buildingRef}
+                  required
+                  defaultValue={building}
+                >
+                  {/* <option>Choose...</option> */}
+                  <option>Village 1</option>
+                  <option>Ron Eydt Village (REV)</option>
+                  <option>Claudette Millar Hall (CMH)</option>
+                  <option>Mackenzie King Village</option>
+                  <option>UW Place</option>
+                  <option>Columbia Lake Village</option>
+                  <option>Minota Hagey</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+            {phone && (
+              <Form.Group id="phone">
+                <Form.Label>Phone #</Form.Label>
+                <Form.Control type="text" ref={phoneRef} defaultValue={phone} />
+              </Form.Group>
+            )}
             <Button disabled={loading} className="w-100" type="submit">
               Update
             </Button>
