@@ -12,7 +12,7 @@ export default function ProfilePage() {
 
     try {
       await logout();
-      history.pushState("/login");
+      history.push("/"); // once logged out redirect to home page
     } catch {
       setError("Failed to log out");
     }

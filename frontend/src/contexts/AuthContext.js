@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
-import { auth } from "../firebase";
+import { auth, provider } from "../firebase";
+import { BACKEND_ADDRESS } from "../config";
+import axios from "axios";
 
 const AuthContext = React.createContext();
 
@@ -11,12 +13,50 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  function signup(email, password) {
-    return auth.createUserWithEmailAndPassword(email, password);
+  async function signup(email, password, displayName, building, phone) {
+    try {
+      let emailURI = encodeURIComponent(email).trim();
+      displayName = encodeURIComponent(displayName);
+      building = encodeURIComponent(building);
+      phone = encodeURIComponent(phone);
+
+      return auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(async (newUserCredential) => {
+          // Signed in
+          //   await newUserCredential.user.sendEmailVerification();
+          const response = await axios({
+            method: "get",
+            url: `${BACKEND_ADDRESS}/signup?email=${emailURI}&displayName=${displayName}&building=${building}&phone=${phone}`,
+          });
+        })
+        .catch((error) => {
+          throw error;
+        });
+    } catch (error) {
+      throw error;
+    }
   }
 
-  function login(email, password) {
-    return auth.signInWithEmailAndPassword(email, password);
+  //   function login(email, password) {
+  async function login() {
+    // check if email is verified first
+    try {
+      const authData = await auth.signInWithPopup(provider);
+      const email = authData.user?.email;
+
+      if (!email) {
+        throw new Error("Authentication error");
+      }
+
+      //   const response = await axios({
+      //     method: "get",
+      //     url: `${BACKEND_ADDRESS}/signup?email=${emailURI}`,
+      //   });
+    } catch (err) {
+      throw err;
+    }
+    // return auth.signInWithEmailAndPassword(email, password);
   }
 
   function logout() {

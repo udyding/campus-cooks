@@ -18,11 +18,14 @@ export default function Login() {
     try {
       setError("");
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
-      history.push("/");
+      await login();
+      // await login(emailRef.current.value, passwordRef.current.value);
+      history.push("/profile-page");
     } catch (error) {
       console.log(error);
-      setError("Failed to log in");
+      setError(
+        "Failed to log in. Make sure your email and password are correct and that you are verified via email."
+      );
     }
     setLoading(false);
   }
@@ -48,6 +51,11 @@ export default function Login() {
           </Form>
           <div className="w-100 text-center mt-3">
             <Link to="/forgot-password">Forgot Password?</Link>
+          </div>
+          <div className="w-100 text-center mt-3">
+            <Button className="w-100" type="submit">
+              Log In Using Google
+            </Button>
           </div>
         </Card.Body>
       </Card>

@@ -25,11 +25,18 @@ export default function SignUp() {
     try {
       setError("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
-      history.push("/");
+      await signup(
+        emailRef.current.value,
+        passwordRef.current.value,
+        displayNameRef.current.value,
+        buildingRef.current.value,
+        phoneRef.current.value
+      );
+      // you can only access profile page from sign in
+      history.push("/verify");
     } catch (error) {
       console.log(error);
-      setError("Failed to create an account");
+      setError(error.message);
     }
     setLoading(false);
   }
@@ -54,7 +61,7 @@ export default function SignUp() {
               <Form.Control type="password" ref={passwordConfirmRef} required />
             </Form.Group>
             <Form.Group id="displayName">
-              <Form.Label>Display Name</Form.Label>
+              <Form.Label>Full Name</Form.Label>
               <Form.Control type="text" ref={displayNameRef} required />
             </Form.Group>
             <Form.Group id="building">

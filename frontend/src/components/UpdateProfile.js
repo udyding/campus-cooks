@@ -34,7 +34,8 @@ export default function UpdateProfile() {
 
     Promise.all(promises)
       .then(() => {
-        history.push("/");
+        // once all changes are made, redirect to profile page, unless both pass and user are changed
+        history.push("/profile-page");
       })
       .catch(() => {
         setError("Failed to update account");
@@ -103,6 +104,12 @@ export default function UpdateProfile() {
               <Form.Label>Phone #</Form.Label>
               <Form.Control type="text" ref={phoneRef} />
             </Form.Group>
+            <div className="w-100 text-center mt-1">
+              <p style={{ color: "red", fontSize: "13px" }}>
+                Note: if both the email and password are changed you will be
+                asked to sign in again.
+              </p>
+            </div>
             <Button disabled={loading} className="w-100" type="submit">
               Update
             </Button>
@@ -110,7 +117,7 @@ export default function UpdateProfile() {
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        <Link to="/">Cancel</Link>
+        <Link to="/profile-page">Cancel</Link>
       </div>
     </>
   );

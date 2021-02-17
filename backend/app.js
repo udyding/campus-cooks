@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const { DATABASE_URI } = require("./config");
 const mongoose = require("mongoose");
 
@@ -8,20 +9,21 @@ let app = express();
 const PORT = 5555;
 
 //const home = require("./home/routes");
-const users = require("./users/routes");
+const signup = require("./signUp/routes");
 const postings = require("./postings/routes");
 const post = require("./post/routes");
-const profilePage = require("./profilePage/routes");
+const user = require("./userInfo/routes");
 
 const router = express.Router();
 // third party middleware
 app.use(bodyParser.json());
+app.use(cors());
 
 //app.get("/", home);
-app.use("/users", users);
+app.use("/signup", signup);
 app.use("/postings", postings);
 app.use("/post", post);
-app.use("/profilePage", profilePage);
+app.use("/user", user);
 
 app.listen(PORT, () => {
   console.log(`Running on port ${PORT}`);

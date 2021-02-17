@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema({
   building: String,
   phone: String,
   displayName: String,
-  postings: [Object],
 });
 
 const User = mongoose.model("users", userSchema);
