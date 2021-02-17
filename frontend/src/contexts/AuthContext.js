@@ -13,67 +13,80 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  async function signup(email, password, displayName, building, phone) {
-    try {
-      let emailURI = encodeURIComponent(email).trim();
-      displayName = encodeURIComponent(displayName);
-      building = encodeURIComponent(building);
-      phone = encodeURIComponent(phone);
+  //   async function signup(email, password, displayName, building, phone) {
+  //     try {
+  //       let emailURI = encodeURIComponent(email).trim();
+  //       displayName = encodeURIComponent(displayName);
+  //       building = encodeURIComponent(building);
+  //       phone = encodeURIComponent(phone);
 
+  //       return auth
+  //         .createUserWithEmailAndPassword(email, password)
+  //         .then(async (newUserCredential) => {
+  //           // Signed in
+  //           //   await newUserCredential.user.sendEmailVerification();
+  //           const response = await axios({
+  //             method: "get",
+  //             url: `${BACKEND_ADDRESS}/signup?email=${emailURI}&displayName=${displayName}&building=${building}&phone=${phone}`,
+  //           });
+  //         })
+  //         .catch((error) => {
+  //           throw error;
+  //         });
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   }
+
+  async function login() {
+    try {
       return auth
-        .createUserWithEmailAndPassword(email, password)
-        .then(async (newUserCredential) => {
-          // Signed in
-          //   await newUserCredential.user.sendEmailVerification();
-          const response = await axios({
+        .signInWithPopup(provider)
+        .then(async () => {
+          let email = currentUser.email;
+          email = encodeURIComponent(email);
+          await axios({
             method: "get",
-            url: `${BACKEND_ADDRESS}/signup?email=${emailURI}&displayName=${displayName}&building=${building}&phone=${phone}`,
+            url: `${BACKEND_ADDRESS}/login?email=${email}`,
           });
         })
         .catch((error) => {
           throw error;
         });
+      // return auth.signInWithEmailAndPassword(email, password);
     } catch (error) {
       throw error;
     }
   }
 
-  //   function login(email, password) {
-  async function login() {
-    // check if email is verified first
-    try {
-      const authData = await auth.signInWithPopup(provider);
-      const email = authData.user?.email;
-
-      if (!email) {
-        throw new Error("Authentication error");
-      }
-
-      //   const response = await axios({
-      //     method: "get",
-      //     url: `${BACKEND_ADDRESS}/signup?email=${emailURI}`,
-      //   });
-    } catch (err) {
-      throw err;
-    }
-    // return auth.signInWithEmailAndPassword(email, password);
+  async function updateInfo(email, building, phone) {
+    let emailURI = encodeURIComponent(email).trim();
+    building = encodeURIComponent(building);
+    phone = encodeURIComponent(phone);
+    await axios({
+      method: "get",
+      url: `${BACKEND_ADDRESS}/updateInfo?email=${emailURI}&building=${building}&phone=${phone}`,
+    });
   }
 
   function logout() {
     return auth.signOut();
   }
 
-  function resetPassword(email) {
-    return auth.sendPasswordResetEmail(email);
+  function updateDisplayName(newDisplayName) {
+    return auth.updateProfile({ displayName: newDisplayName });
   }
+  //   function resetPassword(email) {
+  //     return auth.sendPasswordResetEmail(email);
+  //   }
 
-  function updateEmail(email) {
-    return currentUser.updateEmail(email);
-  }
+  //   function updateEmail(email) {
+  //     return currentUser.updateEmail(email);
+  //   }
 
-  function updatePassword(password) {
-    return currentUser.updatePassword(password);
-  }
+  //   function updatePassword(password) {
+  //     return currentUser.updatePassword(password);
+  //   }
   // ALSO CREATE FUNCTIONS THAT UPDATE THE OTHER FIELDS TOO BUT IN THE DATABASE
 
   useEffect(() => {
@@ -86,12 +99,14 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
-    signup,
+    // signup,
+    updateDisplayName,
+    updateInfo,
     login,
     logout,
-    resetPassword,
-    updateEmail,
-    updatePassword,
+    // resetPassword,
+    // updateEmail,
+    // updatePassword,
   };
   return (
     <AuthContext.Provider value={value}>

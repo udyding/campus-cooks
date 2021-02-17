@@ -15,11 +15,6 @@ export default function Login() {
           Log In
         </Button>
       </div>
-      <div>
-        <Button href="/signup" variant="info" className="w-100" size="lg">
-          Sign Up
-        </Button>
-      </div>
     </>
   );
 }

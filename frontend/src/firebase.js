@@ -15,41 +15,6 @@ const app = firebase.initializeApp({
 });
 
 export const auth = app.auth();
-const provider = new firebase.auth.GoogleAuthProvider();
-export const signInWithGoogle = () => {
-  auth.signInWithPopup(provider);
-};
+export const provider = new firebase.auth.GoogleAuthProvider();
+
 export default app;
-
-//let provider = new firebase.auth.GoogleAuthProvider();
-
-// this allows you to sign in with google and sends you to your profile page if successful
-// sends the email to backend users route and checks if the user has signed in before
-// export const signInWithGoogle = async () => {
-//   try {
-//     const authData = await firebase.auth().signInWithPopup(provider);
-//     const email = authData.user?.email;
-//     const displayName = authData.user?.displayName;
-//     const photoURL = authData.user?.photoURL;
-
-//     // if login was not successful
-//     if (!email) {
-//       throw new Error("Authentication error");
-//     }
-
-//     const response = await axios({
-//       method: "post",
-//       url: `${BACKEND_ADDRESS}/users/login`,
-//       data: {
-//         email,
-//         displayName,
-//         photoURL,
-//       },
-//     });
-//     const user = response.data;
-
-//     window.location.href = `${FRONTEND_ADDRESS}/profilePage`; // profile page will display the postings of the user
-//   } catch (err) {
-//     window.location.href = `${FRONTEND_ADDRESS}/`;
-//   }
-// };

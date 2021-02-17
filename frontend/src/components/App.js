@@ -9,7 +9,6 @@ import PrivateRoute from "./PrivateRoute";
 import ProfilePage from "./ProfilePage";
 import ForgotPassword from "./ForgotPassword";
 import UpdateProfile from "./UpdateProfile";
-import Verify from "./Verify";
 
 function App() {
   return (
@@ -28,7 +27,6 @@ function App() {
                 component={ProfilePage}
               />
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
-              <PrivateRoute path="/verify" component={Verify} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={SignUp} />
               <Route path="/forgot-password" component={ForgotPassword} />

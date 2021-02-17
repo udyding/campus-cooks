@@ -9,10 +9,11 @@ let app = express();
 const PORT = 5555;
 
 //const home = require("./home/routes");
-const signup = require("./signUp/routes");
+const login = require("./signIn/routes");
 const postings = require("./postings/routes");
 const post = require("./post/routes");
 const user = require("./userInfo/routes");
+const updateInfo = require("./updateInfo/routes");
 
 const router = express.Router();
 // third party middleware
@@ -20,10 +21,12 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //app.get("/", home);
-app.use("/signup", signup);
+// app.use("/signup", signup);
+app.use("/login", login);
 app.use("/postings", postings);
 app.use("/post", post);
 app.use("/user", user);
+app.use("/updateInfo", updateInfo);
 
 app.listen(PORT, () => {
   console.log(`Running on port ${PORT}`);

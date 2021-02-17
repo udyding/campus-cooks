@@ -10,18 +10,17 @@ router.get("/getPostings", async (req, res) => {
     const { email } = req.query;
     let postings = await userPostings(email);
     res.status(200).send(postings);
-  } catch (err) {
+  } catch (error) {
     console.log(error);
   }
 });
 
-// the profile page just displays all the postings of a user
 router.get("/getUserInfo", async (req, res) => {
   try {
     const { email } = req.query;
     let info = await userInfo(email);
     res.status(200).send(info);
-  } catch (err) {
+  } catch (error) {
     console.log(error);
   }
 });
