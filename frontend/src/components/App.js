@@ -9,6 +9,8 @@ import PrivateRoute from "./PrivateRoute";
 import ProfilePage from "./ProfilePage";
 import UpdateProfile from "./UpdateProfile";
 import Register from "./Register";
+import CreatePost from "./CreatePost";
+import Browse from "./Browse";
 
 function App() {
   return (
@@ -16,7 +18,7 @@ function App() {
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh" }}
     >
-      <div className="w-100" style={{ maxWidth: "400px" }}>
+      <div className="w-100" style={{ maxWidth: "800px" }}>
         <Router>
           <AuthProvider>
             <Switch>
@@ -28,8 +30,10 @@ function App() {
               />
               <PrivateRoute path="/update-profile" component={UpdateProfile} />
               <PrivateRoute path="/register" component={Register} />
+              <PrivateRoute path="/create-post" component={CreatePost} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={SignUp} />
+              <Route path="/browse" component={Browse} />
             </Switch>
           </AuthProvider>
         </Router>

@@ -19,7 +19,6 @@ async function userPostings(email) {
 async function userInfo(email) {
   try {
     email = decodeURIComponent(email);
-    console.log("hello");
     const userList = await User.find({
       email: email,
     });

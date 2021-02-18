@@ -50,14 +50,80 @@ export function AuthProvider({ children }) {
     }
   }
 
+  // get user info from database
+  async function getUser(email) {
+    try {
+      email = encodeURIComponent(email);
+      const response = await axios({
+        method: "get",
+        url: `${BACKEND_ADDRESS}/user/getUserInfo?email=${email}`,
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function updateInfo(email, building, phone) {
     let emailURI = encodeURIComponent(email).trim();
     building = encodeURIComponent(building);
     phone = encodeURIComponent(phone);
-    await axios({
-      method: "get",
-      url: `${BACKEND_ADDRESS}/updateInfo?email=${emailURI}&building=${building}&phone=${phone}`,
-    });
+    try {
+      await axios({
+        method: "get",
+        url: `${BACKEND_ADDRESS}/updateInfo?email=${emailURI}&building=${building}&phone=${phone}`,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // takes in email and posting object
+  async function addPost(email, posting) {
+    try {
+      await axios({
+        method: "post",
+        url: `${BACKEND_ADDRESS}/post`,
+        data: { email: email, posting: posting },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // takes in email and gets all postings of user
+  async function getPostings(email, posting) {
+    try {
+      let emailURI = encodeURIComponent(email);
+      let response = await axios({
+        method: "get",
+        url: `${BACKEND_ADDRESS}/user/getPostings?email=${emailURI}`,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async function getAllPostings(maxPrice, buildingFilter) {
+    try {
+      if (maxPrice) {
+        maxPrice = maxPrice.toString();
+      } else {
+        maxPrice = "";
+      }
+
+      if (!buildingFilter) {
+        buildingFilter = "";
+      }
+      let response = await axios({
+        method: "get",
+        url: `${BACKEND_ADDRESS}/postings?maxPrice=${maxPrice}&buildingFilter=${buildingFilter}`,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
   }
 
   function logout() {
@@ -79,6 +145,10 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     firstLogin,
+    getUser,
+    addPost,
+    getPostings,
+    getAllPostings,
     updateDisplayName,
     updateInfo,
     login,

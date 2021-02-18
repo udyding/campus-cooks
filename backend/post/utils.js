@@ -1,32 +1,23 @@
 const Posting = require("../models/Posting");
+const { userInfo } = require("../userInfo/utils");
 
 // This function creates a new post given the query params
-async function createNewPost(
-  postTitle,
-  displayName,
-  date,
-  email,
-  phone,
-  building,
-  price,
-  description
-) {
+async function createNewPost(email, posting) {
   try {
-    let posting = new Posting({
-      postTitle: postTitle,
-      displayName: displayName,
-      date: date,
+    let info = await userInfo(email);
+    let newPosting = new Posting({
       email: email,
-      phone: phone,
-      building: building,
-      price: price,
-      description: description,
+      building: info.building,
+      phone: info.phone,
+      postTitle: posting.dishName,
+      price: posting.price,
+      description: posting.description,
+      date: posting.date,
     });
-    posting.save(function (err) {
+    newPosting.save(function (err) {
       if (err) return handleError(err);
       // saved!
     });
-    console.log(posting);
     return posting;
   } catch (err) {
     console.log(err.response);

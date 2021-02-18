@@ -8,10 +8,11 @@ const { getPostings } = require("./utils");
 router.get("", async (req, res) => {
   try {
     // filter by: price, building
-    const { maxPrice, building } = req.query;
-    const allPostings = await getPostings(maxPrice, building);
+    const { maxPrice, buildingFilter } = req.query;
+    console.log(maxPrice);
+    const allPostings = await getPostings(maxPrice, buildingFilter);
     res.status(200).send(allPostings);
-  } catch (err) {
+  } catch (error) {
     console.log(error);
   }
 });

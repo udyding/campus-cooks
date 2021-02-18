@@ -1,18 +1,22 @@
 const Posting = require("../models/Posting");
 
-async function getPostings(maxPrice, building) {
+async function getPostings(maxPrice, buildingFilter) {
   try {
     const query = {};
-    if (maxPrice) {
+    if (maxPrice !== "") {
       query.price = {
         $lte: parseFloat(maxPrice),
       };
     }
-    if (building) {
-      query.building = building;
+    if (buildingFilter !== "") {
+      query.building = buildingFilter;
     }
-    const postings = await Posting.find(query);
-    console.log(postings);
+    let postings;
+    if (maxPrice || buildingFilter) {
+      postings = await Posting.find(query);
+    } else {
+      postings = await Posting.find();
+    }
     return postings;
   } catch (err) {
     console.log(err.response);

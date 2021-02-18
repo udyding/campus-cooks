@@ -21,7 +21,6 @@ async function signIn(email) {
 
     let user = new User({
       email: email,
-      building: "Village 1",
     });
     user.save(function (err) {
       if (err) return handleError(err);

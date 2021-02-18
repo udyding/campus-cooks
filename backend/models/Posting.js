@@ -1,15 +1,13 @@
 const mongoose = require("mongoose");
 
 const postingSchema = new mongoose.Schema({
-  postTitle: String,
-  displayName: String,
-  date: String,
   email: String,
-  // images: [Object],
-  phone: String,
   building: String,
+  phone: String,
+  postTitle: String,
   price: Number,
   description: String,
+  date: String,
 });
 
 const Posting = mongoose.model("postings", postingSchema);

@@ -5,25 +5,11 @@ import { Link, useHistory } from "react-router-dom";
 import { BACKEND_ADDRESS } from "../config";
 import axios from "axios";
 
-// first get all the user info from the database
-async function getUser(email) {
-  try {
-    email = encodeURIComponent(email);
-    const response = await axios({
-      method: "get",
-      url: `${BACKEND_ADDRESS}/user/getUserInfo?email=${email}`,
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 export default function UpdateProfile() {
   const displayNameRef = useRef();
   const buildingRef = useRef();
   const phoneRef = useRef();
-  const { currentUser, updateInfo, updateDisplayName } = useAuth();
+  const { currentUser, updateInfo, updateDisplayName, getUser } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
