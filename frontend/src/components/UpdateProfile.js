@@ -2,8 +2,6 @@ import React, { useRef, useState, useEffect } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
-import { BACKEND_ADDRESS } from "../config";
-import axios from "axios";
 
 export default function UpdateProfile() {
   const displayNameRef = useRef();

@@ -79,12 +79,12 @@ export function AuthProvider({ children }) {
   }
 
   // takes in email and posting object
-  async function addPost(email, posting) {
+  async function addPost(email, displayName, posting) {
     try {
       await axios({
         method: "post",
         url: `${BACKEND_ADDRESS}/post`,
-        data: { email: email, posting: posting },
+        data: { email: email, displayName: displayName, posting: posting },
       });
     } catch (error) {
       throw error;

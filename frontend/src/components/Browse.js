@@ -11,11 +11,18 @@ export default function ProfilePage() {
   const maxPriceRef = useRef();
   const buildingFilterRef = useRef();
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState({});
   //   const history = useHistory();
 
   useEffect(() => {
     const getAllPostingsFirst = async () => {
       let allPostings = await getAllPostings("", ""); // this is an array of objects
+
+      const openMap = {};
+      for (let i = 0; i < allPostings.length; i++) {
+        openMap[i] = false;
+      }
+      setOpen(openMap);
       setPostings(allPostings);
     };
     getAllPostingsFirst();
@@ -47,6 +54,9 @@ export default function ProfilePage() {
   return (
     <>
       <h2 className="text-center mb-4">Browse Postings</h2>
+      <Link to="/profile-page" className="btn btn-primary w-100 mt-3">
+        Go to my profile
+      </Link>
       <Form onSubmit={handleSubmit}>
         <Form.Group id="priceMax">
           <Form.Label>Max Price</Form.Label>
@@ -76,7 +86,23 @@ export default function ProfilePage() {
       </Form>
       <Container>
         <Row className="show-grid">
-          {postings && postings.map((i) => <Col md={4}>{PostCard(i)}</Col>)}
+          {postings &&
+            postings.map((posting, i) => {
+              return (
+                <Col md={4}>
+                  <PostCard
+                    open={open[i]}
+                    setOpen={() =>
+                      setOpen((o) => ({
+                        ...o,
+                        [i]: !o[i],
+                      }))
+                    }
+                    posting={posting}
+                  />
+                </Col>
+              );
+            })}
         </Row>
       </Container>
     </>

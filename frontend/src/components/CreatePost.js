@@ -26,7 +26,7 @@ export default function CreatePost() {
         description: descriptionRef.current.value,
         date: currDate,
       };
-      await addPost(currentUser.email, posting);
+      await addPost(currentUser.email, currentUser.displayName, posting);
       history.push("/profile-page");
     } catch (error) {
       setError("Failed to add post");

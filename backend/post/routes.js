@@ -4,11 +4,10 @@ const router = express.Router();
 
 const { createNewPost } = require("./utils");
 
-// displays all results from database
 router.post("", async (req, res) => {
   try {
-    const { email, posting } = req.body;
-    await createNewPost(email, posting);
+    const { email, displayName, posting } = req.body;
+    await createNewPost(email, displayName, posting);
     res.status(200).send("Successfully added new post!");
   } catch (err) {
     console.log(error);
