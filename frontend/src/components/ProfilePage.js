@@ -10,11 +10,21 @@ export default function ProfilePage() {
   const { currentUser, logout, getPostings } = useAuth();
   const history = useHistory();
   const [postings, setPostings] = useState();
+  const [open, setOpen] = useState({});
 
   useEffect(() => {
     const getUsersPostings = async () => {
-      let userPostings = await getPostings(currentUser.email); // this is an array of objects
-      setPostings(userPostings);
+      try {
+        let userPostings = await getPostings(currentUser.email); // this is an array of objects
+        const openMap = {};
+        for (let i = 0; i < userPostings.length; i++) {
+          openMap[i] = false;
+        }
+        setOpen(openMap);
+        setPostings(userPostings);
+      } catch (err) {
+        console.log(err);
+      }
     };
     getUsersPostings();
   }, []);
@@ -46,7 +56,23 @@ export default function ProfilePage() {
       <Container>
         <h2 className="text-center mb-4">My Postings</h2>
         <Row className="show-grid">
-          {postings && postings.map((i) => <Col md={4}>{PostCard(i)}</Col>)}
+          {postings &&
+            postings.map((posting, i) => {
+              return (
+                <Col md={4}>
+                  <PostCard
+                    open={open[i]}
+                    setOpen={() =>
+                      setOpen((o) => ({
+                        ...o,
+                        [i]: !o[i],
+                      }))
+                    }
+                    posting={posting}
+                  />
+                </Col>
+              );
+            })}
         </Row>
       </Container>
       <div className="w-100 text-center mt-2">

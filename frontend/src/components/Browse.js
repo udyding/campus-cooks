@@ -12,18 +12,28 @@ export default function ProfilePage() {
   const buildingFilterRef = useRef();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState({});
-  //   const history = useHistory();
+  const [showMore, setShowMore] = useState(true);
+  const [visiblePosts, setVisiblePosts] = useState(3);
+  const [index, setIndex] = useState();
+  let openMap = {};
+
+  const handleShowMorePosts = () => {
+    const newIndex = index + 3;
+    const newShowMore = newIndex < postings.length - 1;
+    setShowMore(newShowMore);
+    setVisiblePosts((prevVisiblePosts) => prevVisiblePosts + 3);
+  };
 
   useEffect(() => {
+    // first get all the postings
     const getAllPostingsFirst = async () => {
       let allPostings = await getAllPostings("", ""); // this is an array of objects
-
-      const openMap = {};
       for (let i = 0; i < allPostings.length; i++) {
         openMap[i] = false;
       }
       setOpen(openMap);
       setPostings(allPostings);
+      setIndex(allPostings.length);
     };
     getAllPostingsFirst();
   }, []);
@@ -43,7 +53,15 @@ export default function ProfilePage() {
         maxPriceFilter,
         buildingFilter
       );
+      let openMap = {};
+      for (let i = 0; i < updatedPostings.length; i++) {
+        openMap[i] = false;
+      }
+      setOpen(openMap);
       setPostings(updatedPostings);
+      setIndex(updatedPostings.length);
+      setVisiblePosts(3);
+      setShowMore(updatedPostings.length > 3);
     } catch (error) {
       console.log(error); // shouldn't be one
     } finally {
@@ -87,7 +105,7 @@ export default function ProfilePage() {
       <Container>
         <Row className="show-grid">
           {postings &&
-            postings.map((posting, i) => {
+            postings.slice(0, visiblePosts).map((posting, i) => {
               return (
                 <Col md={4}>
                   <PostCard
@@ -104,6 +122,7 @@ export default function ProfilePage() {
               );
             })}
         </Row>
+        {showMore && <button onClick={handleShowMorePosts}>Load more</button>}
       </Container>
     </>
   );

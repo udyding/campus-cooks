@@ -92,7 +92,7 @@ export function AuthProvider({ children }) {
   }
 
   // takes in email and gets all postings of user
-  async function getPostings(email, posting) {
+  async function getPostings(email) {
     try {
       let emailURI = encodeURIComponent(email);
       let response = await axios({
