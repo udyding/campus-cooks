@@ -13,15 +13,16 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState({});
   const [showMore, setShowMore] = useState(true);
-  const [visiblePosts, setVisiblePosts] = useState(3);
+  const [visiblePosts, setVisiblePosts] = useState(12);
   const [index, setIndex] = useState();
+  const [postingsExist, setPostingsExist] = useState(true);
   let openMap = {};
 
   const handleShowMorePosts = () => {
-    const newIndex = index + 3;
+    const newIndex = index + 12;
     const newShowMore = newIndex < postings.length - 1;
     setShowMore(newShowMore);
-    setVisiblePosts((prevVisiblePosts) => prevVisiblePosts + 3);
+    setVisiblePosts((prevVisiblePosts) => prevVisiblePosts + 12);
   };
 
   useEffect(() => {
@@ -33,12 +34,16 @@ export default function ProfilePage() {
       }
       setOpen(openMap);
       setPostings(allPostings);
+      if (allPostings.length == 0) {
+        setPostingsExist(false);
+      }
       setIndex(allPostings.length);
     };
     getAllPostingsFirst();
   }, []);
 
   async function handleSubmit(e) {
+    setPostingsExist(true);
     e.preventDefault();
     setLoading(true);
     try {
@@ -61,7 +66,10 @@ export default function ProfilePage() {
       setPostings(updatedPostings);
       setIndex(updatedPostings.length);
       setVisiblePosts(3);
-      setShowMore(updatedPostings.length > 3);
+      setShowMore(updatedPostings.length > 12);
+      if (updatedPostings.length == 0) {
+        setPostingsExist(false);
+      }
     } catch (error) {
       console.log(error); // shouldn't be one
     } finally {
@@ -78,7 +86,7 @@ export default function ProfilePage() {
       <Form onSubmit={handleSubmit}>
         <Form.Group id="priceMax">
           <Form.Label>Max Price</Form.Label>
-          <Form.Control type="text" ref={maxPriceRef} />
+          <Form.Control type="number" ref={maxPriceRef} />
         </Form.Group>
         <Form.Group>
           <Form.Label>Building:</Form.Label>
@@ -102,28 +110,33 @@ export default function ProfilePage() {
           Filter
         </Button>
       </Form>
-      <Container>
-        <Row className="show-grid">
-          {postings &&
-            postings.slice(0, visiblePosts).map((posting, i) => {
-              return (
-                <Col md={4}>
-                  <PostCard
-                    open={open[i]}
-                    setOpen={() =>
-                      setOpen((o) => ({
-                        ...o,
-                        [i]: !o[i],
-                      }))
-                    }
-                    posting={posting}
-                  />
-                </Col>
-              );
-            })}
-        </Row>
-        {showMore && <button onClick={handleShowMorePosts}>Load more</button>}
-      </Container>
+      {postingsExist == false && <h2>No postings yet</h2>}
+      {postingsExist && (
+        <Container>
+          <Row className="show-grid">
+            {postings &&
+              postings.slice(0, visiblePosts).map((posting, i) => {
+                return (
+                  <Col md={4}>
+                    <PostCard
+                      open={open[i]}
+                      setOpen={() =>
+                        setOpen((o) => ({
+                          ...o,
+                          [i]: !o[i],
+                        }))
+                      }
+                      posting={posting}
+                    />
+                  </Col>
+                );
+              })}
+          </Row>
+          {showMore && postings && postings.length > 12 && (
+            <button onClick={handleShowMorePosts}>Load more</button>
+          )}
+        </Container>
+      )}
     </>
   );
 }

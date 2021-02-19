@@ -126,6 +126,19 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function deleteSinglePost(postingId) {
+    try {
+      // postingId = postingId.toString();
+      await axios({
+        method: "get",
+        url: `${BACKEND_ADDRESS}/deletePost?postingId=${postingId}`,
+      });
+      console.log("hello");
+    } catch (error) {
+      throw error;
+    }
+  }
+
   function logout() {
     return auth.signOut();
   }
@@ -153,6 +166,7 @@ export function AuthProvider({ children }) {
     updateInfo,
     login,
     logout,
+    deleteSinglePost,
   };
   return (
     <AuthContext.Provider value={value}>

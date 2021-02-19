@@ -8,7 +8,7 @@ async function userPostings(email) {
     const postings = await Posting.find({
       email: email,
     });
-    console.log(postings);
+    // console.log(postings);
     return postings;
   } catch (err) {
     console.log(err.response);

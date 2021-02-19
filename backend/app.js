@@ -13,6 +13,7 @@ const postings = require("./postings/routes");
 const post = require("./post/routes");
 const user = require("./userInfo/routes");
 const updateInfo = require("./updateInfo/routes");
+const deletePost = require("./deletePost/routes");
 
 const router = express.Router();
 // third party middleware
@@ -24,6 +25,7 @@ app.use("/postings", postings);
 app.use("/post", post);
 app.use("/user", user);
 app.use("/updateInfo", updateInfo);
+app.use("/deletePost", deletePost);
 
 app.listen(PORT, () => {
   console.log(`Running on port ${PORT}`);

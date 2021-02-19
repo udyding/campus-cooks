@@ -52,12 +52,12 @@ export default function CreatePost() {
               />
             </Form.Group>
             <Form.Group id="price">
-              <Form.Label>Price per Portion</Form.Label>
+              <Form.Label>Price per Portion ($)</Form.Label>
               <Form.Control
-                type="text"
+                type="number"
                 ref={priceRef}
                 required
-                placeholder="e.g.: $3"
+                placeholder="e.g.: 3.50"
               />
             </Form.Group>
             <Form.Group id="description">
