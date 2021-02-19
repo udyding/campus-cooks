@@ -1,0 +1,29 @@
+.container {
+  font-family: "Aleo", serif;
+}
+
+.navbar {
+  background-color: #fcddbc;
+}
+
+.content {
+  padding: 4%;
+}
+
+.profileButton {
+  font-weight: bold;
+}
+
+.formHeader {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  max-width: 550px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+.formHeader > :global(.form-group) {
+  margin-bottom: 0;
+}

@@ -1,0 +1,24 @@
+.container {
+  margin-top: 100px;
+  padding: 50px 0;
+  font-family: "Aleo", serif;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.title {
+  margin-bottom: 25px;
+  font-size: 9vh;
+}
+
+.description {
+  margin-bottom: 25px;
+  font-size: 4vh;
+  color: #ed6b86;
+}
+
+img {
+  width: 40%;
+  height: 40%;
+  float: right;
+}

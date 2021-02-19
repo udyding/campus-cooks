@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Button, Collapse } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
+import styles from "../styles/PostCard.module.css";
 
 export default function PostCard(props) {
   const { open, setOpen, posting, isDelete } = props;
@@ -21,20 +22,30 @@ export default function PostCard(props) {
   return (
     <>
       {exists && (
-        <Card style={{ width: "18rem" }}>
+        <Card style={{ width: "18rem", margin: "10px", borderRadius: "10px" }}>
           <Card.Body>
-            <Card.Title>{posting.postTitle}</Card.Title>
-            <Card.Text>
-              {posting.price}
+            <Card.Title style={{ fontWeight: "bold" }}>
+              {posting.postTitle}
+            </Card.Title>
+            <Card.Text className={styles.cardText}>
+              ${posting.price} per serving
+            </Card.Text>
+            <Card.Text className={styles.cardText}>
               {posting.building}
-              {posting.date}
+            </Card.Text>
+            <Card.Text
+              className={styles.cardText}
+              style={{ marginBottom: "12px" }}
+            >
+              Posted: {posting.date}
             </Card.Text>
             <Button
               onClick={() => setOpen(!open)}
               aria-controls="more-details"
               aria-expanded={open}
+              variant="outline-primary"
             >
-              More details!
+              More details
             </Button>
             {isDelete && (
               <Button
@@ -47,11 +58,19 @@ export default function PostCard(props) {
               </Button>
             )}
             <Collapse in={open}>
-              <div id="more-details">
-                Posted by: {posting.displayName}
-                Description: {posting.description}
-                Contacts: Email me at {posting.email} or call me at{" "}
-                {posting.phone}
+              <div id="more-details" className={styles.additional}>
+                <Card.Text className={styles.cardText}>
+                  Posted by: {posting.displayName}
+                </Card.Text>
+                <Card.Text className={styles.cardText}>
+                  Description: {posting.description}
+                </Card.Text>
+                <Card.Text className={styles.cardText}>
+                  Email: {posting.email}
+                </Card.Text>
+                <Card.Text className={styles.cardText}>
+                  Phone: {posting.phone}
+                </Card.Text>
               </div>
             </Collapse>
           </Card.Body>

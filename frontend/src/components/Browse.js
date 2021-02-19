@@ -1,8 +1,18 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Button, Form, Container, Row, Col } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  Container,
+  Row,
+  Col,
+  Nav,
+  Navbar,
+  NavDropdown,
+} from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import PostCard from "./PostCard";
+import styles from "../styles/Browse.module.css";
 
 export default function ProfilePage() {
   //   const [error, setError] = useState("");
@@ -65,7 +75,7 @@ export default function ProfilePage() {
       setOpen(openMap);
       setPostings(updatedPostings);
       setIndex(updatedPostings.length);
-      setVisiblePosts(3);
+      setVisiblePosts(12);
       setShowMore(updatedPostings.length > 12);
       if (updatedPostings.length == 0) {
         setPostingsExist(false);
@@ -79,64 +89,80 @@ export default function ProfilePage() {
 
   return (
     <>
-      <h2 className="text-center mb-4">Browse Postings</h2>
-      <Link to="/profile-page" className="btn btn-primary w-100 mt-3">
-        Go to my profile
-      </Link>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group id="priceMax">
-          <Form.Label>Max Price</Form.Label>
-          <Form.Control type="number" ref={maxPriceRef} />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Building:</Form.Label>
-          <Form.Control
-            as="select"
-            defaultValue="Choose..."
-            type="filter"
-            ref={buildingFilterRef}
-          >
-            <option>Choose...</option>
-            <option>Village 1</option>
-            <option>Ron Eydt Village (REV)</option>
-            <option>Claudette Millar Hall (CMH)</option>
-            <option>Mackenzie King Village</option>
-            <option>UW Place</option>
-            <option>Columbia Lake Village</option>
-            <option>Minota Hagey</option>
-          </Form.Control>
-        </Form.Group>
-        <Button disabled={loading} className="w-100" type="submit">
-          Filter
-        </Button>
-      </Form>
-      {postingsExist == false && <h2>No postings yet</h2>}
-      {postingsExist && (
-        <Container>
-          <Row className="show-grid">
-            {postings &&
-              postings.slice(0, visiblePosts).map((posting, i) => {
-                return (
-                  <Col md={4}>
-                    <PostCard
-                      open={open[i]}
-                      setOpen={() =>
-                        setOpen((o) => ({
-                          ...o,
-                          [i]: !o[i],
-                        }))
-                      }
-                      posting={posting}
-                    />
-                  </Col>
-                );
-              })}
-          </Row>
-          {showMore && postings && postings.length > 12 && (
-            <button onClick={handleShowMorePosts}>Load more</button>
+      <div className={styles.container}>
+        <Navbar className={styles.navbar} expand="lg">
+          <Navbar.Brand href="/">Campus Cooks</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link className={styles.profileButton} href="/profile-page">
+                Go to my profile
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        <div className={styles.content}>
+          <h2 className="text-center mb-4">Browse Postings</h2>
+          <Form onSubmit={handleSubmit}>
+            <div className={styles.formHeader}>
+              <Form.Group id="priceMax">
+                <Form.Label>Max Price ($):</Form.Label>
+                <Form.Control type="number" ref={maxPriceRef} />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Building:</Form.Label>
+                <Form.Control
+                  as="select"
+                  defaultValue="Choose..."
+                  type="filter"
+                  ref={buildingFilterRef}
+                >
+                  <option>Choose...</option>
+                  <option>Village 1</option>
+                  <option>Ron Eydt Village (REV)</option>
+                  <option>Claudette Millar Hall (CMH)</option>
+                  <option>Mackenzie King Village</option>
+                  <option>UW Place</option>
+                  <option>Columbia Lake Village</option>
+                  <option>Minota Hagey</option>
+                </Form.Control>
+              </Form.Group>
+              <Button disabled={loading} type="submit">
+                Filter
+              </Button>
+            </div>
+          </Form>
+          {postingsExist == false && (
+            <h4 style={{ textAlign: "center" }}>No postings yet.</h4>
           )}
-        </Container>
-      )}
+          {postingsExist && (
+            <Container>
+              <Row className="show-grid">
+                {postings &&
+                  postings.slice(0, visiblePosts).map((posting, i) => {
+                    return (
+                      <Col md={4}>
+                        <PostCard
+                          open={open[i]}
+                          setOpen={() =>
+                            setOpen((o) => ({
+                              ...o,
+                              [i]: !o[i],
+                            }))
+                          }
+                          posting={posting}
+                        />
+                      </Col>
+                    );
+                  })}
+              </Row>
+              {showMore && postings && postings.length > 12 && (
+                <button onClick={handleShowMorePosts}>Load more</button>
+              )}
+            </Container>
+          )}
+        </div>
+      </div>
     </>
   );
 }

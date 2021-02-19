@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
+import { Form, Button, Card, Alert, Container } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
+import styles from "../styles/Login.module.css";
 
 export default function Login() {
   const { login } = useAuth();
@@ -31,17 +32,29 @@ export default function Login() {
 
   return (
     <>
-      <Card>
-        <Card.Body>
-          <h2 className="text-center mb-4">Log In</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Button disabled={loading} className="w-100" type="submit">
-              Log In With Google
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
+      <Container
+        className="d-flex align-items-center justify-content-center"
+        style={{ minHeight: "100vh" }}
+      >
+        <div className={styles.card}>
+          <Card>
+            <Card.Body>
+              <h2 className="text-center mb-4">Log In</h2>
+              {error && <Alert variant="danger">{error}</Alert>}
+              <Form onSubmit={handleSubmit}>
+                <Button
+                  disabled={loading}
+                  variant="info"
+                  className="w-100"
+                  type="submit"
+                >
+                  Log In With Google
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </div>
+      </Container>
     </>
   );
 }

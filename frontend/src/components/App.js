@@ -14,30 +14,21 @@ import Browse from "./Browse";
 
 function App() {
   return (
-    <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <div className="w-100" style={{ maxWidth: "800px" }}>
-        <Router>
-          <AuthProvider>
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <PrivateRoute
-                exact
-                path="/profile-page"
-                component={ProfilePage}
-              />
-              <PrivateRoute path="/update-profile" component={UpdateProfile} />
-              <PrivateRoute path="/register" component={Register} />
-              <PrivateRoute path="/create-post" component={CreatePost} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/browse" component={Browse} />
-            </Switch>
-          </AuthProvider>
-        </Router>
-      </div>
+    <Container fluid style={{ paddingLeft: 0, paddingRight: 0 }}>
+      <Router>
+        <AuthProvider>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <PrivateRoute exact path="/profile-page" component={ProfilePage} />
+            <PrivateRoute path="/update-profile" component={UpdateProfile} />
+            <PrivateRoute path="/register" component={Register} />
+            <PrivateRoute path="/create-post" component={CreatePost} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/browse" component={Browse} />
+          </Switch>
+        </AuthProvider>
+      </Router>
     </Container>
   );
 }
