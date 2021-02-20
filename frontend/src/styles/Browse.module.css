@@ -3,7 +3,7 @@
 }
 
 .navbar {
-  background-color: #fcddbc;
+  background-color: #fbdae0;
 }
 
 .content {
@@ -12,6 +12,7 @@
 
 .profileButton {
   font-weight: bold;
+  color: white;
 }
 
 .formHeader {

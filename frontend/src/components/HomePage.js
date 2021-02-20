@@ -2,14 +2,20 @@ import React from "react";
 import { Button, Container } from "react-bootstrap";
 import styles from "../styles/HomePage.module.css";
 import baking from "../images/baking.png";
+import logo from "../images/logo.png";
 
 export default function HomePage() {
   return (
     <>
       <div className={styles.container}>
-        <h1 className={styles.title}>Welcome to Campus Cooks!</h1>
         <div>
-          <h2 className={styles.description}>
+          <h1 style={{ fontSize: "40px" }}>
+            <img className={styles.logo} src={logo} />
+            Campus Cooks
+          </h1>
+        </div>
+        <div>
+          <h2 className={styles.title}>
             UWaterloo's platform for sharing and trying new foods
           </h2>
           <Button
@@ -23,7 +29,7 @@ export default function HomePage() {
           <Button href="/browse" variant="dark" size="lg">
             Browse foods
           </Button>
-          <img src={baking} />
+          <img className={styles.baking} src={baking} />
         </div>
       </div>
     </>

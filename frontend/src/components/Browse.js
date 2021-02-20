@@ -13,6 +13,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import PostCard from "./PostCard";
 import styles from "../styles/Browse.module.css";
+import logo from "../images/logo.png";
 
 export default function ProfilePage() {
   //   const [error, setError] = useState("");
@@ -90,12 +91,24 @@ export default function ProfilePage() {
   return (
     <>
       <div className={styles.container}>
-        <Navbar className={styles.navbar} expand="lg">
-          <Navbar.Brand href="/">Campus Cooks</Navbar.Brand>
+        <Navbar bg="dark" variant="dark" expand="lg">
+          <Navbar.Brand href="/">
+            <img
+              src={logo}
+              width="35"
+              height="35"
+              style={{ marginBottom: "4px", marginRight: "10px" }}
+            />
+            Campus Cooks
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
-              <Nav.Link className={styles.profileButton} href="/profile-page">
+              <Nav.Link
+                className={styles.profileButton}
+                style={{ color: "white" }}
+                href="/profile-page"
+              >
                 Go to my profile
               </Nav.Link>
             </Nav>
