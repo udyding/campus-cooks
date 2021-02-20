@@ -94,7 +94,7 @@ export default function ProfilePage() {
           <Navbar.Brand href="/">Campus Cooks</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
+            <Nav className="ml-auto">
               <Nav.Link className={styles.profileButton} href="/profile-page">
                 Go to my profile
               </Nav.Link>
@@ -127,7 +127,7 @@ export default function ProfilePage() {
                   <option>Minota Hagey</option>
                 </Form.Control>
               </Form.Group>
-              <Button disabled={loading} type="submit">
+              <Button disabled={loading} type="submit" variant="info">
                 Filter
               </Button>
             </div>
@@ -137,28 +137,36 @@ export default function ProfilePage() {
           )}
           {postingsExist && (
             <Container>
-              <Row className="show-grid">
+              <Row className="justify-content-center">
                 {postings &&
                   postings.slice(0, visiblePosts).map((posting, i) => {
                     return (
-                      <Col md={4}>
-                        <PostCard
-                          open={open[i]}
-                          setOpen={() =>
-                            setOpen((o) => ({
-                              ...o,
-                              [i]: !o[i],
-                            }))
-                          }
-                          posting={posting}
-                        />
-                      </Col>
+                      <div
+                        className={{ display: "flex", alignItems: "center" }}
+                      >
+                        <Col md={4}>
+                          <PostCard
+                            open={open[i]}
+                            setOpen={() =>
+                              setOpen((o) => ({
+                                ...o,
+                                [i]: !o[i],
+                              }))
+                            }
+                            posting={posting}
+                          />
+                        </Col>
+                      </div>
                     );
                   })}
               </Row>
-              {showMore && postings && postings.length > 12 && (
-                <button onClick={handleShowMorePosts}>Load more</button>
-              )}
+              <div className={styles.loadMore}>
+                {showMore && postings && postings.length > 12 && (
+                  <Button variant="warning" onClick={handleShowMorePosts}>
+                    Load more
+                  </Button>
+                )}
+              </div>
             </Container>
           )}
         </div>

@@ -27,3 +27,11 @@
 .formHeader > :global(.form-group) {
   margin-bottom: 0;
 }
+
+.loadMore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  /* width: 50%; */
+}

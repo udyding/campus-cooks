@@ -22,14 +22,23 @@ export default function PostCard(props) {
   return (
     <>
       {exists && (
-        <Card style={{ width: "18rem", margin: "10px", borderRadius: "10px" }}>
+        <Card
+          style={{
+            width: "18rem",
+            margin: "10px",
+            borderRadius: "10px",
+            borderColor: "#FCDDBC",
+            borderWidth: "medium",
+            padding: "0px",
+          }}
+        >
           <Card.Body>
             <Card.Title style={{ fontWeight: "bold" }}>
               {posting.postTitle}
             </Card.Title>
-            <Card.Text className={styles.cardText}>
+            <Card.Subtitle className="mb-2 text-muted">
               ${posting.price} per serving
-            </Card.Text>
+            </Card.Subtitle>
             <Card.Text className={styles.cardText}>
               {posting.building}
             </Card.Text>
@@ -43,13 +52,14 @@ export default function PostCard(props) {
               onClick={() => setOpen(!open)}
               aria-controls="more-details"
               aria-expanded={open}
-              variant="outline-primary"
+              variant="outline-info"
+              style={{ marginRight: "10px" }}
             >
               More details
             </Button>
             {isDelete && (
               <Button
-                variant="danger"
+                variant="outline-danger"
                 onClick={() => {
                   deletePost();
                 }}

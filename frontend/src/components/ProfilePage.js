@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Button, Alert, Container, Row, Col } from "react-bootstrap";
+import {
+  Button,
+  Alert,
+  Container,
+  Row,
+  Col,
+  Navbar,
+  Nav,
+} from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 import PostCard from "./PostCard";
+import styles from "../styles/ProfilePage.module.css";
 
 export default function ProfilePage() {
   const [error, setError] = useState("");
-  // const [loading, setLoading] = useState(false);
   const { currentUser, logout, getPostings } = useAuth();
   const history = useHistory();
   const [postings, setPostings] = useState();
@@ -57,50 +65,79 @@ export default function ProfilePage() {
   }
   return (
     <>
-      <h2 className="text-center mb-4">Hi, {currentUser.displayName}!</h2>
-      {error && <Alert variant="danger">{error}</Alert>}
-      <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
-        Update profile
-      </Link>
-      <Link to="/create-post" className="btn btn-primary w-100 mt-3">
-        Add a new post
-      </Link>
-      <Link to="/browse" className="btn btn-primary w-100 mt-3">
-        Browse for food
-      </Link>
-      {postingsExist == false && <h2>No postings yet</h2>}
-      {postingsExist && (
-        <Container>
-          <h2 className="text-center mb-4">My Postings</h2>
-          <Row className="show-grid">
-            {postings &&
-              postings.slice(0, visiblePosts).map((posting, i) => {
-                return (
-                  <Col md={4}>
-                    <PostCard
-                      open={open[i]}
-                      setOpen={() =>
-                        setOpen((o) => ({
-                          ...o,
-                          [i]: !o[i],
-                        }))
-                      }
-                      posting={posting}
-                      isDelete={true}
-                    />
-                  </Col>
-                );
-              })}
-          </Row>
-          {showMore && postings && postings.length > 12 && (
-            <button onClick={handleShowMorePosts}>Load more</button>
+      <div className={styles.container}>
+        <Navbar className={styles.navbar} expand="lg">
+          <Navbar.Brand href="/">Campus Cooks</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link className={styles.profileButton} href="/browse">
+                Browse for food
+              </Nav.Link>
+            </Nav>
+            <Nav className="ml-auto">
+              <Button variant="info" onClick={handleLogout}>
+                Log Out
+              </Button>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        <div className={styles.content}>
+          <h1 className={styles.greeting}>Hi, {currentUser.displayName}!</h1>
+          {error && <Alert variant="danger">{error}</Alert>}
+          <div className={styles.header}>
+            <Button
+              variant="info"
+              href="/update-profile"
+              size="lg"
+              style={{ marginRight: "25px" }}
+            >
+              Update profile
+            </Button>
+            <Button variant="warning" href="/create-post" size="lg">
+              Create a new post
+            </Button>
+          </div>
+          {postingsExist == false && (
+            <h4 style={{ textAlign: "center" }}>No postings yet.</h4>
           )}
-        </Container>
-      )}
-      <div className="w-100 text-center mt-2">
-        <Button variant="link" onClick={handleLogout}>
-          Log Out
-        </Button>
+          {postingsExist && (
+            <Container>
+              <h2 className="text-center mb-4">My Postings</h2>
+              <Row className="justify-content-center">
+                {postings &&
+                  postings.slice(0, visiblePosts).map((posting, i) => {
+                    return (
+                      <div
+                        className={{ display: "flex", alignItems: "center" }}
+                      >
+                        <Col md={4}>
+                          <PostCard
+                            open={open[i]}
+                            setOpen={() =>
+                              setOpen((o) => ({
+                                ...o,
+                                [i]: !o[i],
+                              }))
+                            }
+                            posting={posting}
+                            isDelete={true}
+                          />
+                        </Col>
+                      </div>
+                    );
+                  })}
+              </Row>
+              <div className={styles.loadMore}>
+                {showMore && postings && postings.length > 12 && (
+                  <Button variant="warning" onClick={handleShowMorePosts}>
+                    Load more
+                  </Button>
+                )}
+              </div>
+            </Container>
+          )}
+        </div>
       </div>
     </>
   );

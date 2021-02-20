@@ -1,0 +1,28 @@
+.container {
+  font-family: "Aleo", serif;
+}
+
+.navbar {
+  background-color: #fcddbc;
+}
+
+.content {
+  padding: 4%;
+}
+
+.header {
+  margin-bottom: 40px;
+}
+
+.greeting {
+  margin-bottom: 20px;
+  font-size: 70px;
+}
+
+.loadMore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  /* width: 50%; */
+}
