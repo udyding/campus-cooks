@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { DATABASE_URI } = require("./config");
+const { FRONTEND_ADDRESS, DATABASE_URI } = require("./config");
 const mongoose = require("mongoose");
 
 let app = express();
@@ -17,8 +17,23 @@ const deletePost = require("./deletePost/routes");
 
 const router = express.Router();
 // third party middleware
+app.use(
+  cors({
+    origin: FRONTEND_ADDRESS,
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
-app.use(cors());
+app.use((req, res, next) => {
+  res.set({
+    "Access-Control-Allow-Origin": FRONTEND_ADDRESS,
+    "Access-Control-Allow-Headers":
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization, authentication",
+    "Access-Control-Allow-Methods": "GET, PUT, PATCH, POST, DELETE, OPTIONS",
+    "Access-Control-Allow-Credentials": true,
+  });
+  next();
+});
 
 app.use("/login", login);
 app.use("/postings", postings);
