@@ -28,7 +28,6 @@ async function userInfo(email) {
       building: user.building,
       phone: user.phone,
     };
-    console.log(userInfo);
     return userInfo;
   } catch (err) {
     console.log(err.response);

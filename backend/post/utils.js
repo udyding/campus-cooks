@@ -21,7 +21,7 @@ async function createNewPost(email, displayName, posting) {
     });
     return posting;
   } catch (err) {
-    console.log(err.response);
+    console.log(err);
   }
 }
 
