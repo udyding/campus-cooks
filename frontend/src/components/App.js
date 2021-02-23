@@ -23,7 +23,6 @@ function App() {
             <PrivateRoute path="/register" component={Register} />
             <PrivateRoute path="/create-post" component={CreatePost} />
             <Route path="/login" component={Login} />
-            <Route path="/signup" component={SignUp} />
             <Route path="/browse" component={Browse} />
           </Switch>
         </AuthProvider>
