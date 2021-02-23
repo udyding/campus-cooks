@@ -6,7 +6,7 @@ const { FRONTEND_ADDRESS, DATABASE_URI } = require("./config");
 const mongoose = require("mongoose");
 
 let app = express();
-const PORT = 5555;
+const PORT = process.env.PORT || 5555;
 
 const login = require("./signIn/routes");
 const postings = require("./postings/routes");
