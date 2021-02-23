@@ -1,19 +1,15 @@
 require("dotenv").config();
 
 const DEV_CONFIG = {
-  FRONTEND_ADDRESS: "http://localhost:3000",
-  BACKEND_ADDRESS: "http://localhost:5555",
-  DATABASE_URI: "mongodb://localhost:27017/campus-cooks",
-  CLIENT_ID: process.env.CLIENT_ID,
-  CLIENT_SECRET: process.env.CLIENT_SECRET,
+  REACT_APP_FRONTEND_ADDRESS: "http://localhost:3000",
+  REACT_APP_BACKEND_ADDRESS: "http://localhost:5555",
+  REACT_APP_DATABASE_URI: "mongodb://localhost:27017/campus-cooks",
 };
 
 const PROD_CONFIG = {
-  BACKEND_ADDRESS: process.env.BACKEND_ADDRESS,
-  FRONTEND_ADDRESS: process.env.FRONTEND_ADDRESS,
-  DATABASE_URI: process.env.DATABASE_URI,
-  CLIENT_ID: process.env.CLIENT_ID,
-  CLIENT_SECRET: process.env.CLIENT_SECRET,
+  REACT_APP_BACKEND_ADDRESS: process.env.BACKEND_ADDRESS,
+  REACT_APP_FRONTEND_ADDRESS: process.env.FRONTEND_ADDRESS,
+  REACT_APP_DATABASE_URI: process.env.DATABASE_URI,
 };
 
 module.exports =
