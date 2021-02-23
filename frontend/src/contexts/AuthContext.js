@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { auth, provider } from "../firebase";
-import { REACT_APP_BACKEND_ADDRESS } from "../config";
+import { BACKEND_ADDRESS } from "../config";
 import axios from "axios";
 
 const AuthContext = React.createContext();
@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
           email = encodeURIComponent(email);
           let response = await axios({
             method: "get",
-            url: `${REACT_APP_BACKEND_ADDRESS}/login/checkUser?email=${email}`,
+            url: `${BACKEND_ADDRESS}/login/checkUser?email=${email}`,
           });
           // if first time for user
           if (response.data) {
@@ -43,7 +43,7 @@ export function AuthProvider({ children }) {
     try {
       await axios({
         method: "get",
-        url: `${REACT_APP_BACKEND_ADDRESS}/login/signIn?email=${email}`,
+        url: `${BACKEND_ADDRESS}/login/signIn?email=${email}`,
       });
     } catch (error) {
       throw error;
@@ -56,7 +56,7 @@ export function AuthProvider({ children }) {
       email = encodeURIComponent(email);
       const response = await axios({
         method: "get",
-        url: `${REACT_APP_BACKEND_ADDRESS}/user/getUserInfo?email=${email}`,
+        url: `${BACKEND_ADDRESS}/user/getUserInfo?email=${email}`,
       });
       return response.data;
     } catch (error) {
@@ -71,7 +71,7 @@ export function AuthProvider({ children }) {
     try {
       await axios({
         method: "get",
-        url: `${REACT_APP_BACKEND_ADDRESS}/updateInfo?email=${emailURI}&building=${building}&phone=${phone}`,
+        url: `${BACKEND_ADDRESS}/updateInfo?email=${emailURI}&building=${building}&phone=${phone}`,
       });
     } catch (error) {
       throw error;
@@ -83,7 +83,7 @@ export function AuthProvider({ children }) {
     try {
       await axios({
         method: "post",
-        url: `${REACT_APP_BACKEND_ADDRESS}/post`,
+        url: `${BACKEND_ADDRESS}/post`,
         data: { email: email, displayName: displayName, posting: posting },
       });
     } catch (error) {
@@ -97,7 +97,7 @@ export function AuthProvider({ children }) {
       let emailURI = encodeURIComponent(email);
       let response = await axios({
         method: "get",
-        url: `${REACT_APP_BACKEND_ADDRESS}/user/getPostings?email=${emailURI}`,
+        url: `${BACKEND_ADDRESS}/user/getPostings?email=${emailURI}`,
       });
       return response.data;
     } catch (error) {
@@ -118,7 +118,7 @@ export function AuthProvider({ children }) {
       }
       let response = await axios({
         method: "get",
-        url: `${REACT_APP_BACKEND_ADDRESS}/postings?maxPrice=${maxPrice}&buildingFilter=${buildingFilter}`,
+        url: `${BACKEND_ADDRESS}/postings?maxPrice=${maxPrice}&buildingFilter=${buildingFilter}`,
       });
       return response.data;
     } catch (error) {
@@ -131,7 +131,7 @@ export function AuthProvider({ children }) {
       // postingId = postingId.toString();
       await axios({
         method: "get",
-        url: `${REACT_APP_BACKEND_ADDRESS}/deletePost?postingId=${postingId}`,
+        url: `${BACKEND_ADDRESS}/deletePost?postingId=${postingId}`,
       });
       console.log("hello");
     } catch (error) {
