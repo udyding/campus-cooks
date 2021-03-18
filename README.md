@@ -1,6 +1,7 @@
 # Campus Cooks
 
 Online platform that allows UWaterloo students to sell foods they've cooked in their dorms with others! Say you make too many tacos for just you and your roommates, and you don't want to waste the food? Create a posting with a price per serving on Campus Cooks and connect with students eager to try out what you've made!
+Try it out here: <https://campus-cooks.netlify.app/>
 
 ## How to use it
 1. Login to Campus Cooks via your Google account. 
